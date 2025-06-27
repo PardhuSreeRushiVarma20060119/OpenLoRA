@@ -77,14 +77,16 @@ We carried out a full-stack dry run to ensure metrics flowed end-to-end and were
 
 ### Steps Verified By Test-Run:
 
-1. **Prometheus Docker setup**:
+1. **Prometheus & Grafana Docker setup**:
    - Scrape target defined for the training exporter at `host.docker.internal:8000`
-   - Confirmed Prometheus recognized and scraped our target
+   - Confirmed Prometheus recognized and scraped our target.
+![Docker Logs Of Both Prometheus & Grafana](https://github.com/user-attachments/assets/c6f022e9-42b2-473d-ab4a-9cc6e83d9cab)
 
 2. **Python Exporter Running**:
    - Launched a simulated LoRA training loop
    - Exported key metrics: `openlora_training_loss`, `openlora_gpu_utilization`, `openlora_vram_usage_mb`, `openlora_gradient_norm`, `openlora_epoch_count`, `openlora_batch_count`
-   - Verified metric exposition manually via `curl`/browser → metrics available in plain text
+   - Verified metric exposition manually via `curl`/browser → metrics available in plain text.
+![python-script](https://github.com/user-attachments/assets/0b3c495f-1283-4f9c-b8ff-7d740223934a)
 
 3. **Grafana Setup**:
    - Ran container
@@ -92,13 +94,23 @@ We carried out a full-stack dry run to ensure metrics flowed end-to-end and were
    - Queried live metrics using PromQL expressions:
      - `openlora_training_loss`
      - `openlora_*` (wildcard selector to gather all OpenLoRA-related metrics)
-   - Verified real-time charting on Grafana panel
+   - Verified real-time charting on Grafana panel. 
+![grafana](https://github.com/user-attachments/assets/a71f4f00-a36f-44d9-bc02-a5b2613310b0)
 
 4. **Live Observations Captured**:
    - Gradual loss decrease (convergence trend visible)
    - VRAM spikes during peak computation points
    - Epoch counter ticked every ~20 seconds as designed
-   - Gradient norm had high spikes — visual signature of learning turbulence
+   - Gradient norm had high spikes — visual signature of learning turbulence.
+![1](https://github.com/user-attachments/assets/d3b937e4-8ab6-4d5f-a855-74f8e365ac14)
+![2](https://github.com/user-attachments/assets/88d37ee8-b5e3-4d77-94e9-a242ad3caf83)
+![3](https://github.com/user-attachments/assets/c1e7a2eb-02c8-43ea-b78e-f79254a43a24)
+![4](https://github.com/user-attachments/assets/7e43e13d-8bf6-46df-88a7-272d9518b458)
+![5](https://github.com/user-attachments/assets/6d017b1a-41ba-4867-80a9-2812e61ab6b2)
+![6](https://github.com/user-attachments/assets/9068e021-f75f-430b-a551-ae60c3dce7d2)
+![7](https://github.com/user-attachments/assets/1f8e8291-1e5b-4f05-bf8c-0bea4d729cc0)
+![8](https://github.com/user-attachments/assets/01ab6f40-e461-404a-ad60-20e0ccc834da)
+
 
 ---
 
@@ -122,7 +134,6 @@ This system can scale from local dev all the way to multi-node training in GPU c
 
 In AI systems, observability isn't an afterthought. It's the interface between data science, engineering, and infrastructure. This monitoring backbone makes OpenLoRA not just a training tool, but a **smart**, **self-aware** training **platform**.
 
-"**LoRA Without GuessWork**" is more than a tagline — it's a promise.  
-And this is the system that keeps it.
+"**LoRA Without GuessWork**" is more than a tagline — it's a promise, And this is the system that keeps it.
 
 ---
