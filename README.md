@@ -4,6 +4,8 @@
 > Blog & README on OpenLoRA : *"Where intelligence learns to train itself."*
 ---
 
+[![Sponsor](https://img.shields.io/badge/Sponsor-PardhuVarma-blue?style=for-the-badge&logo=github-sponsors&logoColor=white)](https://github.com/sponsors/PardhuSreeRushiVarma20060119)
+
 
 ## 🚀 Vision
 
