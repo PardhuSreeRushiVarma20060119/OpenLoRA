@@ -1,0 +1,16 @@
+[package]
+name = "openlora-core"
+version = "0.1.0"
+edition = "2021"
+description = "OpenLoRA Core Rust Package — Safety-critical types"
+license = "Apache-2.0"
+
+[dependencies]
+chrono = { version = "0.4", features = ["serde"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "1"
+uuid = { version = "1", features = ["v4", "serde"] }
+
+[dev-dependencies]
+tokio = { version = "1", features = ["full", "test-util"] }

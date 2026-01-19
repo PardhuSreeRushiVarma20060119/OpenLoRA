@@ -1,0 +1,42 @@
+[project]
+name = "openlora"
+version = "0.1.0"
+description = "OpenLoRA Core Python Package"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+
+dependencies = [
+    "torch>=2.1.0",
+    "transformers>=4.36.0",
+    "peft>=0.7.0",
+    "datasets>=2.14.0",
+    "accelerate>=0.25.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "mypy>=1.7.0",
+    "ruff>=0.1.6",
+]
+
+rl = [
+    "trl>=0.7.4",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+select = ["E", "F", "I", "W", "UP", "B", "C4", "SIM"]

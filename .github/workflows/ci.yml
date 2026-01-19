@@ -1,0 +1,114 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  PYTHON_VERSION: "3.11"
+  NODE_VERSION: "20"
+  RUST_VERSION: "stable"
+
+jobs:
+  # ==========================================================================
+  # Python
+  # ==========================================================================
+  python-lint:
+    name: Python Lint & Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Install dependencies
+        run: |
+          cd packages/core-python
+          pip install -e ".[dev]"
+      - name: Lint with ruff
+        run: |
+          cd packages/core-python
+          ruff check openlora/
+      - name: Type check with mypy
+        run: |
+          cd packages/core-python
+          mypy openlora/
+
+  python-test:
+    name: Python Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Install dependencies
+        run: |
+          cd packages/core-python
+          pip install -e ".[dev]"
+      - name: Run tests
+        run: |
+          cd packages/core-python
+          pytest --cov=openlora
+
+  # ==========================================================================
+  # Rust
+  # ==========================================================================
+  rust-check:
+    name: Rust Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Check
+        run: |
+          cd packages/core-rust
+          cargo check
+      - name: Clippy
+        run: |
+          cd packages/core-rust
+          cargo clippy -- -D warnings
+      - name: Format check
+        run: |
+          cd packages/core-rust
+          cargo fmt -- --check
+
+  rust-test:
+    name: Rust Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Test
+        run: |
+          cd packages/core-rust
+          cargo test
+
+  # ==========================================================================
+  # TypeScript
+  # ==========================================================================
+  typescript-check:
+    name: TypeScript Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - name: Install dependencies
+        run: |
+          cd packages/core-ts
+          pnpm install
+      - name: Type check
+        run: |
+          cd packages/core-ts
+          pnpm typecheck
+      - name: Build
+        run: |
+          cd packages/core-ts
+          pnpm build
