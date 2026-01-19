@@ -1,0 +1,25 @@
+{
+    "authorized_owners": [
+        "admin",
+        "ml_team",
+        "research"
+    ],
+    "min_lora_rank": 4,
+    "max_lora_rank": 128,
+    "approved_base_models": [
+        "meta-llama/Llama-2-7b-hf",
+        "meta-llama/Llama-2-13b-hf",
+        "mistralai/Mistral-7B-v0.1",
+        "microsoft/phi-2",
+        "google/gemma-2b",
+        "google/gemma-7b"
+    ],
+    "max_training_gpus": 8,
+    "max_memory_gb": 256,
+    "rate_limit_rpm": 1000,
+    "min_safety_score": 0.8,
+    "anomaly_threshold": 0.9,
+    "kill_switch": {
+        "active": false
+    }
+}

@@ -1,0 +1,19 @@
+[project]
+name = "openhub"
+version = "0.1.0"
+description = "OpenHub — Adapter Registry for OpenLoRA"
+requires-python = ">=3.11"
+
+dependencies = [
+    "peft>=0.7.0",
+    "transformers>=4.36.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
