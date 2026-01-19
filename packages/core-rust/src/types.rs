@@ -92,9 +92,15 @@ pub enum GovernanceDecision {
     /// Deny the operation with reason.
     Deny { reason: String },
     /// Quarantine the adapter.
-    Quarantine { adapter_id: AdapterId, reason: String },
+    Quarantine {
+        adapter_id: AdapterId,
+        reason: String,
+    },
     /// Destroy the adapter immediately.
-    Destroy { adapter_id: AdapterId, reason: String },
+    Destroy {
+        adapter_id: AdapterId,
+        reason: String,
+    },
     /// Activate kill-switch.
     Kill { reason: KillReason },
 }
