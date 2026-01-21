@@ -78,6 +78,28 @@ services:
     depends_on:
       - postgres
 
+  core-api:
+    build:
+      context: .
+      dockerfile: docker/go.Dockerfile
+      args:
+        SERVICE_NAME: api
+    environment:
+      - PORT=8090
+      - ORCHESTRATOR_URL=http://orchestrator:8081
+      - EXPERIMENTS_URL=http://experiments:8082
+      - DATASETS_URL=http://datasets:8083
+      - ADAPTERS_URL=http://adapters:8084
+      - METRICS_URL=http://metrics:8085
+      - DEPLOY_URL=http://deploy:8086
+      - MARKETPLACE_URL=http://marketplace:8087
+      - UNIVERSITY_URL=http://university:8088
+    ports:
+      - "8090:8090"
+    depends_on:
+      - orchestrator
+      - experiments
+
   # -------------------------------------------------------------------------
   # FRONTEND
   # -------------------------------------------------------------------------
