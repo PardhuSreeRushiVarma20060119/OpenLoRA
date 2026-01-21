@@ -1,0 +1,94 @@
+version: "3.8"
+
+services:
+  # -------------------------------------------------------------------------
+  # INFRASTRUCTURE
+  # -------------------------------------------------------------------------
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: openlora
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: openlora
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  # -------------------------------------------------------------------------
+  # PYTHON INTELLIGENCE
+  # -------------------------------------------------------------------------
+  openlab-worker:
+    build:
+      context: .
+      dockerfile: docker/python.Dockerfile
+    volumes:
+      - ./services:/app/services
+      - ./packages:/app/packages
+    environment:
+      - PYTHONPATH=/app/services:/app/packages/core-python
+      - EXPERIMENT_STORE_URL=http://experiments:8082
+    depends_on:
+      - experiments
+      - datasets
+
+
+  # -------------------------------------------------------------------------
+  # GO MICROSERVICES
+  # -------------------------------------------------------------------------
+  gateway:
+    build:
+      context: .
+      dockerfile: docker/go.Dockerfile
+      args:
+        SERVICE_NAME: gateway
+    environment:
+      - PORT=8080
+      - ORCHESTRATOR_URL=http://orchestrator:8081
+    ports:
+      - "8080:8080"
+    depends_on:
+      - orchestrator
+
+  orchestrator:
+    build:
+      context: .
+      dockerfile: docker/go.Dockerfile
+      args:
+        SERVICE_NAME: orchestrator
+    environment:
+      - PORT=8081
+    ports:
+      - "8081:8081"
+
+  experiments:
+    build:
+      context: .
+      dockerfile: docker/go.Dockerfile
+      args:
+        SERVICE_NAME: experiments
+    environment:
+      - PORT=8082
+      - DATABASE_URL=postgres://openlora:password@postgres:5432/openlora?sslmode=disable
+    depends_on:
+      - postgres
+
+  # -------------------------------------------------------------------------
+  # FRONTEND
+  # -------------------------------------------------------------------------
+  studio:
+    build:
+      context: ./apps/studio
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8080
+
+volumes:
+  pgdata:

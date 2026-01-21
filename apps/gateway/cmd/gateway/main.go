@@ -31,6 +31,7 @@ func main() {
 		{Name: "metrics", Prefix: "/api/v1/metrics", Backend: getEnv("METRICS_URL", "http://localhost:8085")},
 		{Name: "deploy", Prefix: "/api/v1/deploy", Backend: getEnv("DEPLOY_URL", "http://localhost:8086")},
 		{Name: "marketplace", Prefix: "/api/v1/marketplace", Backend: getEnv("MARKETPLACE_URL", "http://localhost:8087")},
+		{Name: "university", Prefix: "/api/v1/university", Backend: getEnv("UNIVERSITY_URL", "http://localhost:8088")},
 	}
 
 	mux := http.NewServeMux()
