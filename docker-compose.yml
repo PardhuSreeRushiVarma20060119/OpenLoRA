@@ -1,4 +1,4 @@
-version: "3.8"
+
 
 services:
   # -------------------------------------------------------------------------
@@ -77,6 +77,66 @@ services:
       - DATABASE_URL=postgres://openlora:password@postgres:5432/openlora?sslmode=disable
     depends_on:
       - postgres
+
+  datasets:
+    build:
+      context: .
+      dockerfile: docker/go.Dockerfile
+      args:
+        SERVICE_NAME: datasets
+    environment:
+      - PORT=8083
+      - DATABASE_URL=postgres://openlora:password@postgres:5432/openlora?sslmode=disable
+    depends_on:
+      - postgres
+
+  adapters:
+    build:
+      context: .
+      dockerfile: docker/go.Dockerfile
+      args:
+        SERVICE_NAME: adapters
+    environment:
+      - PORT=8084
+      - DATABASE_URL=postgres://openlora:password@postgres:5432/openlora?sslmode=disable
+    depends_on:
+      - postgres
+
+  metrics:
+    build:
+      context: .
+      dockerfile: docker/go.Dockerfile
+      args:
+        SERVICE_NAME: metrics
+    environment:
+      - PORT=8085
+
+  deploy:
+    build:
+      context: .
+      dockerfile: docker/go.Dockerfile
+      args:
+        SERVICE_NAME: deploy
+    environment:
+      - PORT=8086
+
+  marketplace:
+    build:
+      context: .
+      dockerfile: docker/go.Dockerfile
+      args:
+        SERVICE_NAME: marketplace
+    environment:
+      - PORT=8087
+
+  university:
+    build:
+      context: .
+      dockerfile: docker/go.Dockerfile
+      args:
+        SERVICE_NAME: university
+    environment:
+      - PORT=8088
 
   core-api:
     build:
