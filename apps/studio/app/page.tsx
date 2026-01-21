@@ -1,78 +1,220 @@
-import Link from 'next/link';
-import { Activity, Box, Database, GitMerge, Server, Shield, GraduationCap, Github } from 'lucide-react';
+"use client";
+
+import { Activity, ArrowUpRight, Cpu, Server, Users, Zap, Box } from "lucide-react";
+import { AreaChart, Area, ResponsiveContainer, XAxis, YAxis, Tooltip, TooltipProps } from "recharts";
+
+const data = [
+    { name: "Jan", total: 12 },
+    { name: "Feb", total: 21 },
+    { name: "Mar", total: 18 },
+    { name: "Apr", total: 35 },
+    { name: "May", total: 42 },
+    { name: "Jun", total: 55 },
+    { name: "Jul", total: 89 },
+];
 
 export default function Home() {
     return (
-        <main className="flex min-h-screen flex-col items-center p-8 lg:p-24 bg-gradient-to-br from-slate-950 to-slate-900 border-white/5">
-            <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-                <div className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-                    <code className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600">
-                        OpenLoRA++
-                    </code>
+        <div className="p-8 space-y-8">
+            {/* Header */}
+            <div className="flex items-center justify-between">
+                <div className="space-y-1">
+                    <h2 className="text-3xl font-bold tracking-tight text-white">Dashboard</h2>
+                    <p className="text-muted-foreground">
+                        Real-time overview of your OpenLoRA cluster.
+                    </p>
                 </div>
-                <div className="flex gap-4">
-                    <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 text-green-400 border border-green-500/20">
-                        <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                <div className="flex items-center space-x-2">
+                    <span className="flex items-center px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 text-sm font-medium">
+                        <div className="w-2 h-2 rounded-full bg-emerald-500 mr-2 animate-pulse"></div>
                         System Healthy
+                    </span>
+                </div>
+            </div>
+
+            {/* Stats Grid */}
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                <StatCard
+                    title="Active Models"
+                    value="12"
+                    icon={Box}
+                    trend="+2.5%"
+                    trendUp={true}
+                    description="Running in inference"
+                />
+                <StatCard
+                    title="GPU Utilization"
+                    value="87%"
+                    icon={Cpu}
+                    trend="+12%"
+                    trendUp={true}
+                    description="Across 4 nodes"
+                />
+                <StatCard
+                    title="Total Requests"
+                    value="1.2M"
+                    icon={Activity}
+                    trend="+4%"
+                    trendUp={true}
+                    description="Past 24 hours"
+                />
+                <StatCard
+                    title="Active Users"
+                    value="342"
+                    icon={Users}
+                    trend="+11%"
+                    trendUp={true}
+                    description="Learning in University"
+                />
+            </div>
+
+            {/* Main Content Grid */}
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+
+                {/* Chart Section */}
+                <div className="col-span-4 glass-card rounded-xl p-6">
+                    <div className="flex items-center justify-between mb-6">
+                        <div>
+                            <h3 className="text-lg font-medium text-white">Inference Traffic</h3>
+                            <p className="text-sm text-gray-400">Requests per second over time</p>
+                        </div>
+                    </div>
+                    <div className="h-[300px] w-full">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <AreaChart data={data}>
+                                <defs>
+                                    <linearGradient id="colorTotal" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.3} />
+                                        <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0} />
+                                    </linearGradient>
+                                </defs>
+                                <XAxis
+                                    dataKey="name"
+                                    stroke="#525252"
+                                    fontSize={12}
+                                    tickLine={false}
+                                    axisLine={false}
+                                />
+                                <YAxis
+                                    stroke="#525252"
+                                    fontSize={12}
+                                    tickLine={false}
+                                    axisLine={false}
+                                    tickFormatter={(value) => `${value}`}
+                                />
+                                <Tooltip
+                                    content={({ active, payload }) => {
+                                        if (active && payload && payload.length) {
+                                            return (
+                                                <div className="rounded-lg border border-slate-700 bg-slate-900 p-2 shadow-sm">
+                                                    <div className="grid grid-cols-2 gap-2">
+                                                        <div className="flex flex-col">
+                                                            <span className="text-[0.70rem] uppercase text-muted-foreground">
+                                                                Total
+                                                            </span>
+                                                            <span className="font-bold text-muted-foreground">
+                                                                {payload[0].value}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )
+                                        }
+                                        return null
+                                    }}
+                                />
+                                <Area
+                                    type="monotone"
+                                    dataKey="total"
+                                    stroke="#8b5cf6"
+                                    strokeWidth={2}
+                                    fillOpacity={1}
+                                    fill="url(#colorTotal)"
+                                />
+                            </AreaChart>
+                        </ResponsiveContainer>
                     </div>
                 </div>
+
+                {/* Recent Activity */}
+                <div className="col-span-3 glass-card rounded-xl p-6">
+                    <div className="flex items-center justify-between mb-6">
+                        <div>
+                            <h3 className="text-lg font-medium text-white">Recent Activity</h3>
+                            <p className="text-sm text-gray-400">Latest system events</p>
+                        </div>
+                    </div>
+                    <div className="space-y-8">
+                        <ActivityItem
+                            title="Model Deployment"
+                            desc="Llama-3-70b-Instruct deployed to Node-01"
+                            time="2m ago"
+                            icon={Server}
+                            color="text-blue-500 bg-blue-500/10"
+                        />
+                        <ActivityItem
+                            title="Training Started"
+                            desc="Fine-tuning job #4922 started by @pardhu"
+                            time="15m ago"
+                            icon={Zap}
+                            color="text-yellow-500 bg-yellow-500/10"
+                        />
+                        <ActivityItem
+                            title="Adapter Registered"
+                            desc="New adapter 'medical-diagnosis-v2' added"
+                            time="1h ago"
+                            icon={Box}
+                            color="text-purple-500 bg-purple-500/10"
+                        />
+                        <ActivityItem
+                            title="User Enrollment"
+                            desc="New user joined OpenUniversity"
+                            time="3h ago"
+                            icon={Users}
+                            color="text-emerald-500 bg-emerald-500/10"
+                        />
+                    </div>
+                </div>
+
             </div>
-
-            <div className="relative flex place-items-center my-16">
-                <h1 className="text-6xl font-black text-center tracking-tighter">
-                    The <span className="text-blue-500">Universal</span> Adapter OS
-                </h1>
-            </div>
-
-            <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left gap-4">
-
-                <Card
-                    title="Orchestrator"
-                    icon={<Activity className="w-6 h-6 text-blue-400" />}
-                    desc="GPU allocation & Job scheduling"
-                    href="http://localhost:8081/health"
-                />
-                <Card
-                    title="Experiments"
-                    icon={<Box className="w-6 h-6 text-purple-400" />}
-                    desc="Track runs & metrics"
-                    href="http://localhost:8082/health"
-                />
-                <Card
-                    title="Governance"
-                    icon={<Shield className="w-6 h-6 text-red-400" />}
-                    desc="Security & Provenance"
-                    href="#"
-                />
-                <Card
-                    title="University"
-                    icon={<GraduationCap className="w-6 h-6 text-yellow-400" />}
-                    desc="Interactive Learning"
-                    href="http://localhost:8088/health"
-                />
-
-            </div>
-        </main>
+        </div>
     );
 }
 
-function Card({ title, icon, desc, href }: { title: string, icon: any, desc: string, href: string }) {
+function StatCard({ title, value, icon: Icon, trend, trendUp, description }: any) {
     return (
-        <a
-            href={href}
-            className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            <div className="mb-3 flex items-center gap-3">
-                {icon}
-                <h2 className={`mb-0 text-xl font-semibold`}>
-                    {title}
-                </h2>
+        <div className="glass-card rounded-xl p-6 hover:bg-white/5 transition duration-200">
+            <div className="flex items-center justify-between space-y-0 pb-2">
+                <p className="text-sm font-medium text-gray-400">{title}</p>
+                <Icon className="h-4 w-4 text-gray-400" />
             </div>
-            <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-                {desc}
+            <div className="flex items-center pt-2">
+                <div className="text-2xl font-bold text-white mr-2">{value}</div>
+                <div className={`text-xs font-medium flex items-center ${trendUp ? 'text-emerald-500' : 'text-rose-500'}`}>
+                    {trendUp ? <ArrowUpRight className="h-3 w-3 mr-1" /> : null}
+                    {trend}
+                </div>
+            </div>
+            <p className="text-xs text-muted-foreground mt-1">
+                {description}
             </p>
-        </a>
+        </div>
+    )
+}
+
+function ActivityItem({ title, desc, time, icon: Icon, color }: any) {
+    return (
+        <div className="flex items-center">
+            <div className={`h-9 w-9 rounded-full flex items-center justify-center mr-4 ${color}`}>
+                <Icon className="h-4 w-4" />
+            </div>
+            <div className="space-y-1 flex-1">
+                <p className="text-sm font-medium text-white leading-none">{title}</p>
+                <p className="text-xs text-muted-foreground">
+                    {desc}
+                </p>
+            </div>
+            <div className="text-xs text-muted-foreground">{time}</div>
+        </div>
     )
 }
