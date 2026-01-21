@@ -5,6 +5,7 @@ import { Activity, AlertTriangle, CheckCircle2, Clock, Zap, Server, Box, Layers 
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { OrchestratorAPI } from "@/lib/api";
 
 // Types for data fetching
 interface SystemStats {
@@ -51,37 +52,41 @@ export function Dashboard() {
 
     const [jobs, setJobs] = useState<Job[]>([]);
     const [loading, setLoading] = useState(true);
+    const [isSystemHealthy, setSystemHealthy] = useState(false);
 
     // Fetch real data from microservices
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // In a real scenario, these would be calls to:
-                // - localhost:8090/stats (Core API)
-                // - localhost:8081/jobs (Orchestrator)
-                // Using simulated response for now to demonstrate UI integration
-
-                // Simulating API call delay
-                await new Promise(resolve => setTimeout(resolve, 800));
-
-                setStats({
-                    gpu_utilization: 87,
-                    cpu_utilization: 65,
-                    memory_utilization: 72,
-                    active_models: 12,
-                    active_jobs: 3,
-                    total_requests: 1254300,
-                });
-
-                setJobs([
-                    { id: "job-1", name: "Fine-tune Llama-3-70b", status: "running", progress: 67 },
-                    { id: "job-2", name: "Eval Mistral-7b-v0.2", status: "pending", progress: 0 },
-                    { id: "job-3", name: "LoRA Merge (Code)", status: "completed", progress: 100 },
+                // Real API Hook Integration
+                // Responses are NOT wrapped in { data: ... } by default in internal Go services
+                const [orchStats, activeJobs] = await Promise.all([
+                    OrchestratorAPI.getStats(),
+                    OrchestratorAPI.getJobs().catch(() => [])
                 ]);
 
+                // Map backend status to UI stats
+                // Note: Actual backend field names might differ, defaulting safely
+                setStats({
+                    gpu_utilization: orchStats?.gpu_utilization || 0,
+                    cpu_utilization: orchStats?.cpu_utilization || 0,
+                    memory_utilization: orchStats?.memory_utilization || 0,
+                    active_models: orchStats?.active_models || 0,
+                    active_jobs: orchStats?.active_jobs || 0,
+                    total_requests: orchStats?.total_requests || 0,
+                });
+
+                if (Array.isArray(activeJobs)) {
+                    setJobs(activeJobs.slice(0, 5));
+                } else {
+                    setJobs([]);
+                }
+
+                setSystemHealthy(true);
                 setLoading(false);
             } catch (error) {
                 console.error("Failed to fetch dashboard data:", error);
+                setSystemHealthy(false);
                 setLoading(false);
             }
         };
@@ -92,7 +97,7 @@ export function Dashboard() {
     }, []);
 
     if (loading) {
-        return <div className="p-8 text-muted-foreground animate-pulse">Loading dashboard telemetry...</div>;
+        return <div className="p-8 text-muted-foreground animate-pulse">Loading live telemetry...</div>;
     }
 
     return (
@@ -103,9 +108,14 @@ export function Dashboard() {
                     <h1 className="text-3xl font-bold tracking-tight mb-2">Dashboard</h1>
                     <p className="text-muted-foreground">Overview of your OpenLoRA Cluster</p>
                 </div>
-                <div className="flex items-center gap-2 px-3 py-1 bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 rounded-full text-sm font-medium">
-                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                    System Operational
+                <div className={cn(
+                    "flex items-center gap-2 px-3 py-1 border rounded-full text-sm font-medium",
+                    isSystemHealthy
+                        ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
+                        : "bg-red-500/10 text-red-500 border-red-500/20"
+                )}>
+                    <div className={cn("w-2 h-2 rounded-full animate-pulse", isSystemHealthy ? "bg-emerald-500" : "bg-red-500")} />
+                    {isSystemHealthy ? "System Operational" : "Connection Error"}
                 </div>
             </div>
 
@@ -165,24 +175,28 @@ export function Dashboard() {
                         </CardHeader>
                         <CardContent>
                             <div className="space-y-4">
-                                {jobs.map(job => (
-                                    <div key={job.id} className="space-y-2">
-                                        <div className="flex justify-between text-sm">
-                                            <span className="font-medium">{job.name}</span>
-                                            <span className="text-muted-foreground">{job.progress}%</span>
+                                {jobs.length === 0 ? (
+                                    <p className="text-muted-foreground text-sm">No active jobs found.</p>
+                                ) : (
+                                    jobs.map(job => (
+                                        <div key={job.id} className="space-y-2">
+                                            <div className="flex justify-between text-sm">
+                                                <span className="font-medium">{job.name}</span>
+                                                <span className="text-muted-foreground">{job.progress}%</span>
+                                            </div>
+                                            <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
+                                                <div
+                                                    className={cn(
+                                                        "h-full transition-all duration-500",
+                                                        job.status === 'completed' ? "bg-emerald-500" :
+                                                            job.status === 'failed' ? "bg-red-500" : "bg-primary"
+                                                    )}
+                                                    style={{ width: `${job.progress}%` }}
+                                                />
+                                            </div>
                                         </div>
-                                        <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
-                                            <div
-                                                className={cn(
-                                                    "h-full transition-all duration-500",
-                                                    job.status === 'completed' ? "bg-emerald-500" :
-                                                        job.status === 'failed' ? "bg-red-500" : "bg-primary"
-                                                )}
-                                                style={{ width: `${job.progress}%` }}
-                                            />
-                                        </div>
-                                    </div>
-                                ))}
+                                    ))
+                                )}
                             </div>
                         </CardContent>
                     </Card>

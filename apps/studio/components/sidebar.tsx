@@ -75,11 +75,11 @@ export function Sidebar() {
     const pathname = usePathname();
 
     return (
-        <div className="space-y-4 py-4 flex flex-col h-full bg-[#111827] text-white border-r border-white/5">
+        <div className="space-y-4 py-4 flex flex-col h-full bg-sidebar/50 backdrop-blur-xl border-r border-border/40 text-sidebar-foreground">
             <div className="px-3 py-2 flex-1">
                 <Link href="/" className="flex items-center pl-3 mb-14">
-                    <div className="relative w-8 h-8 mr-4 bg-gradient-to-tr from-violet-600 to-indigo-600 rounded-lg flex items-center justify-center shadow-lg shadow-violet-500/20">
-                        <span className="font-bold text-white">OP</span>
+                    <div className="relative w-8 h-8 mr-4 bg-primary rounded-lg flex items-center justify-center shadow-lg shadow-primary/20">
+                        <span className="font-bold text-primary-foreground">OP</span>
                     </div>
                     <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
                         OpenLoRA++
@@ -91,12 +91,15 @@ export function Sidebar() {
                             key={route.href}
                             href={route.href}
                             className={cn(
-                                "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer hover:text-white hover:bg-white/10 rounded-lg transition",
-                                pathname === route.href ? "text-white bg-white/10" : "text-zinc-400"
+                                "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer rounded-lg transition-all duration-200",
+                                "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                                pathname === route.href
+                                    ? "bg-sidebar-accent text-sidebar-accent-foreground shadow-sm"
+                                    : "text-muted-foreground"
                             )}
                         >
                             <div className="flex items-center flex-1">
-                                <route.icon className={cn("h-5 w-5 mr-3", route.color)} />
+                                <route.icon className={cn("h-5 w-5 mr-3 transition-colors", pathname === route.href ? "text-primary" : "text-muted-foreground group-hover:text-primary")} />
                                 {route.label}
                             </div>
                         </Link>
