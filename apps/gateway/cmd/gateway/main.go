@@ -36,6 +36,20 @@ func main() {
 
 	mux := http.NewServeMux()
 
+	// Root handler
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/" {
+			http.NotFound(w, r)
+			return
+		}
+		json.NewEncoder(w).Encode(map[string]string{
+			"service": "OpenLoRA API Gateway",
+			"status":  "running",
+			"studio":  "http://localhost:3000",
+			"docs":    "/api/v1/services",
+		})
+	})
+
 	// Health check
 	mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(map[string]string{"status": "healthy", "service": "gateway"})

@@ -28,6 +28,7 @@ func NewHTTPServer(sched *scheduler.Scheduler, alloc *allocator.GPUAllocator) *H
 }
 
 func (s *HTTPServer) setupRoutes() {
+	s.mux.HandleFunc("/", s.handleRoot)
 	s.mux.HandleFunc("/health", s.handleHealth)
 	s.mux.HandleFunc("/status", s.handleStatus)
 	s.mux.HandleFunc("/jobs", s.handleJobs)
@@ -107,4 +108,17 @@ func (s *HTTPServer) handleRegisterNode(w http.ResponseWriter, r *http.Request) 
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]string{"status": "registered", "node_id": node.ID})
+}
+
+func (s *HTTPServer) handleRoot(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/" {
+		http.NotFound(w, r)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]string{
+		"service": "OpenLoRA Orchestrator",
+		"status":  "running",
+		"docs":    "/status",
+	})
 }
