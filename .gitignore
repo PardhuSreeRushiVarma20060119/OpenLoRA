@@ -1,0 +1,52 @@
+# Rust build artifacts
+target/
+Cargo.lock
+
+# Go build artifacts
+*.exe
+*.out
+apps/gateway/gateway
+apps/orchestrator/orchestrator
+apps/experiments/experiments
+apps/datasets/datasets
+apps/adapters/adapters
+apps/metrics/metrics
+apps/deploy/deploy
+apps/marketplace/marketplace
+apps/university/university
+apps/api/api
+apps/scheduler/scheduler
+
+# Node.js
+node_modules/
+dist/
+.next/
+*.tsbuildinfo
+package-lock.json
+pnpm-lock.yaml
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+.venv/
+venv/
+*.egg
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
