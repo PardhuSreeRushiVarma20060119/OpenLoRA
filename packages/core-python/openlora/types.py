@@ -10,16 +10,15 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import datetime
-from enum import Enum
-from typing import Any, Optional
+from enum import StrEnum
+from typing import Any
 from uuid import UUID
-
 
 # =============================================================================
 # Enums
 # =============================================================================
 
-class AdapterStatus(str, Enum):
+class AdapterStatus(StrEnum):
     """Status of a LoRA adapter."""
     ACTIVE = "active"
     TRAINING = "training"
@@ -28,7 +27,7 @@ class AdapterStatus(str, Enum):
     DESTROYED = "destroyed"
 
 
-class AdapterTask(str, Enum):
+class AdapterTask(StrEnum):
     """Task type for LoRA adapter."""
     CAUSAL_LM = "CAUSAL_LM"
     SEQ_2_SEQ_LM = "SEQ_2_SEQ_LM"
@@ -36,7 +35,7 @@ class AdapterTask(str, Enum):
     TOKEN_CLS = "TOKEN_CLS"
 
 
-class ExperimentStatus(str, Enum):
+class ExperimentStatus(StrEnum):
     """Status of an experiment run."""
     PENDING = "pending"
     RUNNING = "running"
@@ -65,11 +64,11 @@ class AdapterConfig:
 @dataclass
 class AdapterMetadata:
     """Metadata for a LoRA adapter."""
-    description: Optional[str] = None
+    description: str | None = None
     tags: list[str] = field(default_factory=list)
-    trained_on: Optional[str] = None
-    accuracy: Optional[float] = None
-    signature: Optional[str] = None
+    trained_on: str | None = None
+    accuracy: float | None = None
+    signature: str | None = None
 
 
 @dataclass
@@ -88,7 +87,7 @@ class Adapter:
     owner_id: UUID
     created_at: datetime
     updated_at: datetime
-    parent_adapter_id: Optional[UUID] = None
+    parent_adapter_id: UUID | None = None
 
 
 @dataclass
@@ -109,7 +108,7 @@ class DatasetVersion:
     id: UUID
     dataset_id: UUID
     version: int
-    parent_version_id: Optional[UUID]
+    parent_version_id: UUID | None
     checksum: str
     row_count: int
     storage_path: str
@@ -132,13 +131,13 @@ class ExperimentConfig:
 @dataclass
 class Metrics:
     """Training/evaluation metrics."""
-    loss: Optional[float] = None
-    perplexity: Optional[float] = None
-    accuracy: Optional[float] = None
-    gradient_norm: Optional[float] = None
-    learning_rate: Optional[float] = None
-    step: Optional[int] = None
-    epoch: Optional[int] = None
+    loss: float | None = None
+    perplexity: float | None = None
+    accuracy: float | None = None
+    gradient_norm: float | None = None
+    learning_rate: float | None = None
+    step: int | None = None
+    epoch: int | None = None
     custom: dict[str, float] = field(default_factory=dict)
 
 
@@ -146,11 +145,11 @@ class Metrics:
 class ExperimentRun:
     """An experiment run."""
     id: UUID
-    adapter_id: Optional[UUID]
+    adapter_id: UUID | None
     dataset_version_id: UUID
     config: ExperimentConfig
     status: ExperimentStatus
     metrics: Metrics
-    started_at: Optional[datetime]
-    completed_at: Optional[datetime]
+    started_at: datetime | None
+    completed_at: datetime | None
     created_at: datetime

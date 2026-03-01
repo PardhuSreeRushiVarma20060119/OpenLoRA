@@ -1,6 +1,6 @@
 # OpenLoRA Justfile
 
-set shell := ["powershell.exe", "-c"]
+set shell := ["bash", "-c"]
 
 # Build everything
 build: build-rust build-go build-studio
