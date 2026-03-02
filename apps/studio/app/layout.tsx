@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "@/components/sidebar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
-
-const font = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
     title: "OpenLoRA Studio",
@@ -19,7 +16,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" suppressHydrationWarning>
-            <body className={font.className}>
+            <body>
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="dark"
