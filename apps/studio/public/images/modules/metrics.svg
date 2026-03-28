@@ -1,0 +1,9 @@
+<svg width="640" height="360" viewBox="0 0 640 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="360" rx="20" fill="#0B0D14"/>
+  <rect x="24" y="24" width="592" height="312" rx="16" fill="#102730" stroke="#0E7490"/>
+  <path d="M80 230L170 170L250 190L350 120L430 150L560 80" stroke="#22D3EE" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="170" cy="170" r="8" fill="#67E8F9"/>
+  <circle cx="350" cy="120" r="8" fill="#67E8F9"/>
+  <circle cx="560" cy="80" r="8" fill="#67E8F9"/>
+  <text x="56" y="302" fill="#A5F3FC" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="700">Metrics</text>
+</svg>

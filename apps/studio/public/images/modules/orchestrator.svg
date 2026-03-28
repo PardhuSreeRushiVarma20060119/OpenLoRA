@@ -1,0 +1,10 @@
+<svg width="640" height="360" viewBox="0 0 640 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="360" rx="20" fill="#0B0D14"/>
+  <rect x="24" y="24" width="592" height="312" rx="16" fill="#14122A" stroke="#2E1065"/>
+  <circle cx="160" cy="150" r="38" fill="#4C1D95"/>
+  <circle cx="320" cy="120" r="30" fill="#6D28D9"/>
+  <circle cx="470" cy="170" r="34" fill="#7C3AED"/>
+  <path d="M160 150L320 120L470 170" stroke="#A78BFA" stroke-width="6" stroke-linecap="round"/>
+  <rect x="56" y="246" width="528" height="18" rx="9" fill="#312E81"/>
+  <text x="56" y="302" fill="#C4B5FD" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="700">Orchestrator</text>
+</svg>

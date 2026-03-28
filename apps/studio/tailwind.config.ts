@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+    darkMode: "class",
     content: [
         "./pages/**/*.{js,ts,jsx,tsx,mdx}",
         "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -65,6 +66,42 @@ const config: Config = {
                 lg: "var(--radius)",
                 md: "calc(var(--radius) - 2px)",
                 sm: "calc(var(--radius) - 4px)",
+            },
+            boxShadow: {
+                "card": "0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4)",
+                "card-lg": "0 4px 24px -4px rgb(0 0 0 / 0.5)",
+                "glow-blue": "0 0 24px -4px hsl(217 91% 60% / 0.35)",
+                "glow-violet": "0 0 24px -4px hsl(263 70% 60% / 0.35)",
+                "glow-emerald": "0 0 24px -4px hsl(158 64% 52% / 0.35)",
+            },
+            keyframes: {
+                shimmer: {
+                    "0%": { backgroundPosition: "-200% 0" },
+                    "100%": { backgroundPosition: "200% 0" },
+                },
+                "fade-in-up": {
+                    from: { opacity: "0", transform: "translateY(8px)" },
+                    to: { opacity: "1", transform: "translateY(0)" },
+                },
+                "fade-in": {
+                    from: { opacity: "0" },
+                    to: { opacity: "1" },
+                },
+                "glow-pulse": {
+                    "0%, 100%": { boxShadow: "0 0 0 0 hsl(158 64% 52% / 0.4)" },
+                    "50%": { boxShadow: "0 0 0 6px hsl(158 64% 52% / 0)" },
+                },
+                "slide-in-right": {
+                    from: { opacity: "0", transform: "translateX(-6px)" },
+                    to: { opacity: "1", transform: "translateX(0)" },
+                },
+            },
+            animation: {
+                shimmer: "shimmer 1.5s infinite",
+                "fade-in-up": "fade-in-up 0.35s ease-out both",
+                "fade-in": "fade-in 0.25s ease-out both",
+                "glow-pulse": "glow-pulse 2s infinite",
+                "slide-in-right": "slide-in-right 0.25s ease-out both",
             },
         },
     },
