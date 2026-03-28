@@ -4,6 +4,29 @@ OpenLoRA is a **full-stack LoRA-native AI engineering ecosystem** covering **mod
 
 ---
 
+## 🖼️ Module Image Map
+
+### CORE
+
+| Module | Image |
+|---|---|
+| Dashboard | ![Dashboard](../apps/studio/public/images/modules/dashboard.svg) |
+| Orchestrator | ![Orchestrator](../apps/studio/public/images/modules/orchestrator.svg) |
+| Experiments | ![Experiments](../apps/studio/public/images/modules/experiments.svg) |
+| Datasets | ![Datasets](../apps/studio/public/images/modules/datasets.svg) |
+| Adapters | ![Adapters](../apps/studio/public/images/modules/adapters.svg) |
+
+### TOOLS
+
+| Module | Image |
+|---|---|
+| Marketplace | ![Marketplace](../apps/studio/public/images/modules/marketplace.svg) |
+| University | ![University](../apps/studio/public/images/modules/university.svg) |
+| Metrics | ![Metrics](../apps/studio/public/images/modules/metrics.svg) |
+| Deploy | ![Deploy](../apps/studio/public/images/modules/deploy.svg) |
+
+---
+
 ## 🏛️ **1. OpenLoRA Studio (Core Platform Features)**
 
 ### Platform Core
