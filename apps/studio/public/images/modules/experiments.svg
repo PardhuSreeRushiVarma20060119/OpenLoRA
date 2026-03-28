@@ -1,0 +1,9 @@
+<svg width="640" height="360" viewBox="0 0 640 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="360" rx="20" fill="#0B0D14"/>
+  <rect x="24" y="24" width="592" height="312" rx="16" fill="#2A1223" stroke="#831843"/>
+  <rect x="90" y="94" width="100" height="130" rx="10" fill="#BE185D" fill-opacity="0.45"/>
+  <rect x="220" y="74" width="100" height="150" rx="10" fill="#DB2777" fill-opacity="0.55"/>
+  <rect x="350" y="114" width="100" height="110" rx="10" fill="#EC4899" fill-opacity="0.45"/>
+  <rect x="480" y="84" width="100" height="140" rx="10" fill="#F472B6" fill-opacity="0.55"/>
+  <text x="56" y="302" fill="#F9A8D4" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="700">Experiments</text>
+</svg>

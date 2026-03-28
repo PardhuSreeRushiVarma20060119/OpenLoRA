@@ -1,0 +1,11 @@
+<svg width="640" height="360" viewBox="0 0 640 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="360" rx="20" fill="#0B0D14"/>
+  <rect x="24" y="24" width="592" height="312" rx="16" fill="#121826" stroke="#1F2937"/>
+  <rect x="56" y="70" width="180" height="20" rx="10" fill="#60A5FA" fill-opacity="0.25"/>
+  <rect x="56" y="110" width="120" height="110" rx="12" fill="#1E293B"/>
+  <rect x="192" y="110" width="120" height="110" rx="12" fill="#1E293B"/>
+  <rect x="328" y="110" width="120" height="110" rx="12" fill="#1E293B"/>
+  <rect x="464" y="110" width="120" height="110" rx="12" fill="#1E293B"/>
+  <rect x="56" y="246" width="528" height="18" rx="9" fill="#334155"/>
+  <text x="56" y="302" fill="#93C5FD" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="700">Dashboard</text>
+</svg>
